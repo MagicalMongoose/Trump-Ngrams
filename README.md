@@ -8,4 +8,4 @@ Instructions on how to run each file are located at the top of each file.
 ## Sources
 Most of the code was created by [Claude 3.5 Sonnet](https://claude.ai). 
 
-I manually collected the transcripts from [here](https://www.rev.com/blog/transcript-category/donald-trump-transcripts)
+I manually collected the transcripts from [rev.com](https://www.rev.com/blog/transcript-category/donald-trump-transcripts).
