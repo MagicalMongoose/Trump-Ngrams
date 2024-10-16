@@ -1,13 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# Run python executable and read output
+# ./Speeches
 
 import re
 import os
-from collections import Counter
-import plotly.graph_objects as go
-from datetime import datetime
-from nltk import ngrams
 import math
+import pandas as pd
+import plotly.graph_objects as go
+from nltk import ngrams
+from datetime import datetime
+from collections import Counter
 
 def preprocess_text(text):
     text = text.lower()
@@ -105,6 +106,24 @@ def visualize_ngram_trends(ngram_data):
 
     fig.show()
 
+def create_tfidf_table(ngram_data):
+    ngram_dict = {}
+    dates = [datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date, _ in ngram_data]
+
+    for date, top_ngrams in ngram_data:
+        for ngram, score in top_ngrams:
+            ngram_str = " ".join(ngram)
+            if ngram_str not in ngram_dict:
+                ngram_dict[ngram_str] = [0] * len(ngram_data)
+            ngram_dict[ngram_str][ngram_data.index((date, top_ngrams))] = score
+
+    df = pd.DataFrame(ngram_dict, index=dates)
+    df = df.transpose()
+    df.index.name = 'N-gram'
+    df.columns.name = 'Date'
+    
+    return df
+
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     speeches_folder = os.path.join(script_dir, "Speeches")
@@ -120,6 +139,11 @@ def main():
 
     ngram_data = calculate_top_ngrams_tfidf(corpus, n, window_size)
     visualize_ngram_trends(ngram_data)
+    # Create and display the TF-IDF table with TF-IDF values
+    tfidf_table = create_tfidf_table(ngram_data)
+    average_scores = tfidf_table.mean(axis=1)
+    for index, average_score in average_scores.items():
+        print(f"{index}: Average TF-IDF Score: {average_score}")
 
 if __name__ == "__main__":
     main()

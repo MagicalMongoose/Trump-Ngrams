@@ -116,7 +116,7 @@ def main():
     # Display probabilities as percentages
     print("\nProbabilities:")
     for item, prob in sorted(probabilities.items(), key=lambda x: x[1], reverse=True):
-        print(f"{item}: {prob*100:.4f}%")
+        print(f"{item}: {prob*100:.4f}%")    
 
     # Visualize probabilities
     visualize_probabilities(probabilities)
