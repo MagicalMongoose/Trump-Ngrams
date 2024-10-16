@@ -5,6 +5,9 @@ import plotly.graph_objects as go
 from datetime import datetime
 from nltk import ngrams
 
+# Run python executable and read output
+# ./Speeches
+
 def preprocess_text(text):
     text = text.lower()
     text = re.sub(r'[''`’]', "'", text)
